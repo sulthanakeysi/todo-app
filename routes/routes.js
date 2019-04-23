@@ -4,19 +4,27 @@ const express= require("express"),
 
 
 router.get('/', (req,res) =>{
-    res.render('pages/home');
+    //displaying tasks
+    model.todo.find({},(err,docs) =>{
+        if(err) console.log("err");
+        else{
+            res.render("pages/home", {docs:docs});
+        }
+    });
 });
 
 
 router.post('/', (req,res) => {
+
     //adding new task
     let task = new model.todo({task: req.body.task,
                                done: false});
     //saving to database
     task.save((err,task) => {
         if (err) return console.error(err);
+        else res.redirect('/');
         
-    })
+    });
     
     
 });

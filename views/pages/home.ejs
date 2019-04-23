@@ -2,3 +2,13 @@
     <input type="text" placeholder="text" id="task" name="task"/>
     <input type="submit" />
 </form>
+
+<table  class="table">
+    <tbody>
+        <% for (var tasks of docs){%>
+            <tr>
+                <td><%= tasks.task %></td>
+            </tr>
+        <%}%>
+    </tbody>
+</table>
