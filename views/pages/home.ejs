@@ -1,14 +1,28 @@
 <form action = "/" method="POST">
+    
     <input type="text" placeholder="text" id="task" name="task"/>
-    <input type="submit" />
-</form>
+    
+
 
 <table  class="table">
     <tbody>
         <% for (var tasks of docs){%>
             <tr>
-                <td><%= tasks.task %></td>
+                <td><a id="<%= tasks._id %>" value="<%=tasks.task%>" ondblclick="update(id)" href="#"><%= tasks.task %></a></td>
+                <td><button type="button" class="close" aria-label="Close" onclick="window.location.href='/delete/<%= tasks._id %>'">
+                        <span aria-hidden="true">&times;</span>
+                </button></td>
             </tr>
         <%}%>
     </tbody>
 </table>
+<input type="submit" style="display:none"/>
+</form>
+
+<script>
+        let update = (id) =>{
+            
+            document.getElementById(id).innerHTML= "<input type='text'  id='task' name='task/>";
+                                                        
+        }
+    </script>

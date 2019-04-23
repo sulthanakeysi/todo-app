@@ -15,7 +15,7 @@ mongoose.connect("mongodb://sulthana:manjamma10@ds143666.mlab.com:43666/to-do",{
 
 //setting view
 app.set('view engine', 'ejs');
-
+app.use(layouts);
       
 
 app.use('/' , router);
