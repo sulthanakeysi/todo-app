@@ -3,6 +3,11 @@ const express= require("express"),
       model = require("../models/model");
 
 
+
+      router.get('/active', (req,res) =>{
+        res.render('pages/active');
+    });
+    
 router.get('/', (req,res) =>{
 
     //displaying tasks
@@ -25,7 +30,7 @@ router.post('/', (req,res) => {
 
     //saving to database
     task.save((err,task) => {
-        if (err) return console.error(err);
+        if (err) return console.error("database saving error");
         else res.redirect('/');
         
     });
@@ -39,6 +44,7 @@ router.get('/delete/:id', ( req,res) => {
         else res.redirect('/');
     });
 });
+
 
 
 module.exports = router;

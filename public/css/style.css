@@ -1,0 +1,62 @@
+h1{
+    opacity: 0.3;
+    font-weight: 400 !important;
+}
+.container{
+    background-color: rgb(237, 237, 237);
+    padding-bottom: 150px;
+    margin-top: 40px;
+}
+.cls{
+    padding:30px 28px 30px 60px;
+    font-size: 22px;
+}
+.card{
+    margin-left: 280px;
+    margin-right: 280px;
+}
+
+.round {
+  position: relative;
+}
+
+.round label {
+  background-color: rgb(255, 255, 255);
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 27px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 28px;
+  opacity: 0.5;
+}
+
+.round label:after {
+  border: 2px solid green;
+  border-top: none;
+  border-right: none;
+  content: "";
+  height: 6px;
+  left: 7px;
+  opacity: 0;
+  position: absolute;
+  top: 8px;
+  transform: rotate(-45deg);
+  width: 12px;
+}
+
+.round input[type="checkbox"] {
+  visibility: hidden;
+}
+
+.round input[type="checkbox"]:checked + label {
+  
+  border-color: #66bb6a;
+}
+
+.round input[type="checkbox"]:checked + label:after {
+  opacity: 1;
+  color: #66bb6a;
+}

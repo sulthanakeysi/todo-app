@@ -1,0 +1,85 @@
+
+<div class="row">
+        <div class="col">
+            <form action = "/" method="POST" class="form-group m-0">
+                <input type="text" placeholder="What needs to be done?" id="task" name="task" class="form-control cls"/>
+                <input type="submit" style="display:none"/>
+            </form>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    <table  class="table m-0 border">
+        <tbody>
+            <% for (var tasks of docs){%>
+                <tr class="cls">
+                    <td><div class="checkbox  round">
+                        <input type="checkbox" id="<%=tasks._id%>" class="myCheck" onclick="check(id)"/>
+                        <label for="<%=tasks._id%>"></label>
+                        <% if(!<%=tasks._id%>.value){%>X
+                        <a id="<%=tasks._id%>1"  ondblclick="update(id)" href="#" class="text-dark cls"><%= tasks.task %></a>
+                        <%}%>
+                    </div>
+                    </td>
+                    <td><button type="button" class="close" aria-label="Close" onclick="window.location.href='/delete/<%= tasks._id %>'">
+                            <span aria-hidden="true">&times;</span>
+                    </button></td>
+                </tr>
+            <%}%>
+        </tbody>
+    </table>
+    
+    <%if(docs.length!==0){%>
+        <nav class="navbar navbar-expand-lg navbar-light">
+                <%if(docs.length === 1){%>
+                <a class="navbar-brand text-muted" href="#"><%=docs.length%> item left</a>
+                <%}
+                else {%>
+                    <a class="navbar-brand text-muted" href="#"><%=docs.length%> items left</a>
+                <%}%>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item ">
+                      <a class="nav-link" href="#">All <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/active">Active</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                      <a class="nav-link " href="#">Completed</a>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+    
+    <%}%>
+    
+    
+    
+    <script>
+            let update = (id) =>{
+                
+                document.getElementById(id).innerHTML= "<input type='text'  id='task' name='task/>";
+                                                            
+            }
+    
+    
+            let check = (name) =>{
+            
+                var checkbox = document.getElementById(name);
+                var text = document.getElementById(name + "1");
+    
+                if (checkbox.checked == true){
+                    text.style.textDecoration = "line-through";
+                    text.style.opacity = "0.5";
+                } else {
+                    text.style.textDecoration = "none";
+                    text.style.opacity = "1";
+                }
+            }
+        </script>
+    
