@@ -53,10 +53,16 @@ h1{
 
 .round input[type="checkbox"]:checked + label {
   
-  border-color: #66bb6a;
+  border-color: green;
 }
 
 .round input[type="checkbox"]:checked + label:after {
   opacity: 1;
-  color: #66bb6a;
+  color: green;
+}
+.close{
+  opacity: 0;
+}
+.close :hover{
+  opacity: 0.7;
 }

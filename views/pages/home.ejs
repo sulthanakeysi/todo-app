@@ -16,14 +16,15 @@
     <tbody>
         <% for (var tasks of docs){%>
             <tr class="cls">
-                <td><div class="checkbox  round">
-                    <input type="checkbox" id="<%=tasks._id%>" class="myCheck" onclick="check(id)"/>
-                    <label for="<%=tasks._id%>"></label>
-                    <a id="<%=tasks._id%>1"  ondblclick="update(id)" href="#" class="text-dark cls"><%= tasks.task %></a>
-                </div>
+                <td>
+                    <!-- <div class="checkbox  round"> -->
+                    
+                    <label for="<%=tasks._id%>1"></label>
+                    <span id="<%=tasks._id%>1" value="<%= tasks.task %>"  class="<%=tasks._id%>"><%= tasks.task %></span>
+                <!-- </div> -->
                 </td>
-                <td><button type="button" class="close" aria-label="Close" onclick="window.location.href='/delete/<%= tasks._id %>'">
-                        <span aria-hidden="true">&times;</span>
+                <td><button type="button" class="close text-danger" aria-label="Close" id="<%=tasks._id%>"  >
+                       &times;
                 </button></td>
             </tr>
         <%}%>
@@ -44,7 +45,7 @@
                   <a class="nav-link" href="#">All <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/active">Active</a>
+                  <a class="nav-link" href="#" onclick="window.location.href = '/active'">Active</a>
                 </li>
                 
                 <li class="nav-item">
@@ -52,19 +53,49 @@
                 </li>
               </ul>
             </div>
-          </nav>
-
+    </nav>
 <%}%>
 
-
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 <script>
-        let update = (id) =>{
+        $(document).ready(() =>{
             
-            document.getElementById(id).innerHTML= "<input type='text'  id='task' name='task/>";
-                                                        
-        }
+            $(".close").click((event)=>{
+              var id = event.currentTarget.id;
+                $.ajax({
+                    url:"/delete/" + id,
+                    type:"DELETE"
 
+                })
+                .done(()=>window.location.reload(true))
+                .fail(() => console.log("failed"));
+             });
+
+             $("span").click((event)=>{
+                var id = event.currentTarget.className;
+                //console.log('.'+id);
+                $('.'+id).replaceWith("<input type='text' name='text'  id='text' value='' />"
+                                      );
+                
+                $('#text').keypress((event)=>{
+                    //console.log(id);
+                    var keycode = (event.keyCode ? event.keyCode : event.which);
+                   if(keycode == '13'){
+                    var value= document.getElementById('text').value;
+
+                    $.ajax({
+                        url:'/update/'+id,
+                        type:'PUT',
+                        data:{value}
+                    }).done(()=>console.log("success"))
+                      .fail(()=> console.log("failed"));
+                }
+                });
+            });
+        })
+        
 
         let check = (name) =>{
         
@@ -80,3 +111,4 @@
             }
         }
     </script>
+

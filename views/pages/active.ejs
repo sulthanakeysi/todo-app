@@ -19,7 +19,7 @@
                     <td><div class="checkbox  round">
                         <input type="checkbox" id="<%=tasks._id%>" class="myCheck" onclick="check(id)"/>
                         <label for="<%=tasks._id%>"></label>
-                        <% if(!<%=tasks._id%>.value){%>X
+                        <% if(!tasks._id.value){%>
                         <a id="<%=tasks._id%>1"  ondblclick="update(id)" href="#" class="text-dark cls"><%= tasks.task %></a>
                         <%}%>
                     </div>

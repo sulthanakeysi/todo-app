@@ -1,6 +1,6 @@
 const express = require("express"),
       app = express(),
-      router= require("./routes/routes"),
+      router= require("./routes/index"),
       mongoose = require("mongoose"),
       bodyParser = require("body-parser"),
       layouts = require("express-ejs-layouts");
