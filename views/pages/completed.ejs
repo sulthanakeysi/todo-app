@@ -1,9 +1,9 @@
-<!-------------------- inserting tasks -------------------->
+<!--------------- inserting tasks -------------------->
 <div class="row">
     <div class="col">
-        <form action = "/" method="POST" class="form-group m-0">
-            <input type="text" placeholder="What needs to be done?" id="task" name="task" class="form-control cls border-0"/>
-            <input type="submit" style="display:none"/>
+        <form action = "/" method="POST" class="form-group m-0" id="form">
+            <input type="text" placeholder="What needs to be done?" id="task" name="task" class="form-control cls border-0" autofocus="autofocus"/>
+            <input  type="submit" style="display:none"/>
         </form>
     </div>
 </div>
@@ -11,34 +11,32 @@
 
 
 
-<!------------------ displaying tasks -------------------->
+<!------------------- displaying tasks --------------->
 <table  class="table m-0 border">
     <tbody>
         <% for (var tasks of docs){
 
-            <!-- displaying unchecked tasks -->
-            if(tasks.done == false){%>
-            <tr class="cls">
-                <td>
-                    <div class="round">
-                    <input type="checkbox"  class="myCheck" name="myCheck" id="<%= tasks._id %>2" value="<%=tasks._id%>"/>
-                    <label for="<%=tasks._id%>2"></label></div>
-                    <span id="<%=tasks._id%>1" value="<%=tasks.task%>"  class="<%=tasks._id%>"><%= tasks.task %></span>
-                
-                </td>
-                <td><button type="button" class="close text-danger" aria-label="Close" id="<%=tasks._id%>"  >
-                       &times;
-                </button></td>
-            </tr>
+            <!-- displaying checked tasks -->
+            if(tasks.done == true){%>
+                <tr class="cls">
+                    <td>
+                        <div class="round">
+                        <input type="checkbox"  class="myCheck" name="myCheck" id="<%= tasks._id %>2" value="<%=tasks._id%>" checked/>
+                        <label for="<%=tasks._id%>2"></label></div>
+                        <span id="<%=tasks._id%>1" value="<%=tasks.task%>"  class="<%=tasks._id%>" style="text-decoration: line-through; opacity: 0.5;"><%= tasks.task %></span>
+                    
+                    </td>
+                    <td><button type="button" class="close text-danger" aria-label="Close" id="<%=tasks._id%>"  >
+                           &times;
+                    </button></td>
+                </tr>
             <%}
-
-            
         }%>
     </tbody>
 </table>
 
 
-<!---------------------- navigation ------------------------->
+<!--------------------- navigation --------------------->
 <%if(docs.length!==0){%>
     <nav class="navbar navbar-expand-lg navbar-light">
         <%if(docs.length === 1){%>
@@ -50,15 +48,25 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item ">
-                    <a class="nav-link" href="/">All <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/" >All </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/active">Active</a>
+                    <a class="nav-link" href="/active" >Active</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " href="/completed">Completed</a>
                 </li>
-              
+
+                <!-- navigating only if checked task is present -->
+                <%for(tasks of docs){
+                    if(tasks.done === true){%>
+                        <li class="nav-item">
+                                <a class="nav-link " href="#" id="clear">Clear completed</a>
+                            </li>  
+                    <% break;
+                }
+                    
+                }%>
             </ul>
         </div>
     </nav>
@@ -68,8 +76,8 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
     $(document).ready(() =>{ 
-            
-//////////////delete from database/////////////////////
+
+//////////////////delete from database//////////////////////
         $(".close").click((event)=>{
             var id = event.currentTarget.id;
             $.ajax({
@@ -81,7 +89,7 @@
         });
 
 
-///////////////update database//////////////////////
+//////////////////update database////////////////////////////////
         $("span").click((event)=>{
             var id = event.currentTarget.className;
             var val = event.currentTarget.getAttribute('value');
@@ -120,13 +128,12 @@
         });
 
 
-///////////////checkbox//////////////////
+///////////////checkbox///////////////////
         $(".myCheck").click((event) =>{
             var check = event.currentTarget.id;
             var checkbox = document.getElementById(check);
             var t = $('#'+check).attr('value');
             var text = document.getElementById(t+'1');
-            
 
             if (checkbox.checked == true){
                 
@@ -138,16 +145,24 @@
                 text.style.opacity = "1";
             }
             var val = event.currentTarget.getAttribute('value');
-
+            
             $.ajax({
                 url:'/check/' +val,
                 type:'PUT'
             
             }).done(() => window.location.reload(true));
-
             
-    
+        });
+
+////////////////// clear all //////////////////
+        $("#clear").click((event) => {
+            $.ajax({
+                    url:"/clear",
+                    type:"DELETE"
+            })
+            .done(()=>window.location.reload(true))
+            .fail(() => console.log("failed"));
         })
-    })
-        
+    });
+  
 </script>

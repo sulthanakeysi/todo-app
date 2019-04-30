@@ -17,10 +17,11 @@ mongoose.connect("mongodb://sulthana:manjamma10@ds143666.mlab.com:43666/to-do",{
 app.set('view engine', 'ejs');
 app.use(layouts);
 
+//styling
 app.use(express.static(__dirname + '/public'));
       
-
+//routing
 app.use('/' , router);
 
-
+//listening
 app.listen(3000, () => console.log("app listening"));
